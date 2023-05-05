@@ -29,8 +29,8 @@ const server = new ApolloServer({
 await server.start();
 app.use(
   "/graphql",
-  // cors({ origin: ['https://www.your-app.example', 'https://studio.apollographql.com'] }),
-  cors(),
+  cors({ origin: ["https://dailygram-admin2023.onrender.com"] }),
+  // cors(),
   json(),
   expressMiddleware(server, {
     context: async ({ req }) => ({ token: req.headers.token }),
