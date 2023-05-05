@@ -6,22 +6,38 @@ const typeDefs = `
         task(id: ID!): Task!
         peopleMemos: [PeopleMemo]
         peopleMemo(id: ID!): PeopleMemo!
+        users: [User]
+        user(id: ID!): User!
+    }
+
+    type User{
+        id: ID!
+        name: String!
+        email: String!
+        password: String!
+        role:Role
+        expenditures: [Expenditure]
+        peopleMemos: [PeopleMemo]
+        tasks: [Task]
+    }
+    enum Role {
+        user
+        admin
     }
     type Expenditure{
         id: ID!
         name: String
         price: Float
         description: String
-        createdBy:String
+        createdBy:ID!
     }
-
     type PeopleMemo{
         id: ID!
         name: String
         organization: String
         place: String
         description: String
-        createdBy:String
+        createdBy:ID!
     }
     type Task{
         id: ID!
@@ -29,16 +45,13 @@ const typeDefs = `
         isCompleted: Boolean
         level: Level 
         description: String
-        createdBy:String
+        createdBy:ID!
     }
     enum Level {
         unnecessary
         normal
         emergent
     }
-
-
-
     input CreateExpenditureInput{
         name: String
         price: Float
@@ -50,13 +63,41 @@ const typeDefs = `
         price: Float
         description: String
     }
+    input CreateTaskInput{
+        name: String
+        description: String
+    }
+    input UpdateTaskInput{
+        id: ID!
+        name: String
+        description: String
+    }
+    input CreatePeopleMemoInput{
+        name: String
+        price: Float
+        description: String
+    }
+    input UpdatePeopleMemoInput{
+        id: ID!
+        name: String
+        price: Float
+        description: String
+    }
     type Mutation{
         createExpenditure(input: CreateExpenditureInput!) : Expenditure!
-        deleteExpenditure(id: ID!) : Expenditure!
+        deleteExpenditure(id: ID!) :ID!
         updateExpenditure( id: ID!, input: UpdateExpenditureInput!) : Expenditure!
+
+        createTask(input: CreateTaskInput!) : Task!
+        deleteTask(id: ID!) : ID!
+        updateTask( id: ID!, input: UpdateTaskInput!) : Task!
+
+        createPeopleMemo(input: CreatePeopleMemoInput!) : PeopleMemo!
+        deletePeopleMemo(id: ID!) : ID!
+        updatePeopleMemo( id: ID!, input: UpdatePeopleMemoInput!) : PeopleMemo!
+
+        deleteUser(id: ID!) : ID!
+
     }
-
 `;
-
 export default typeDefs;
-

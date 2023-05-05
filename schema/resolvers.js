@@ -1,10 +1,34 @@
+import _ from "lodash";
 import Expenditure from "../models/Expenditure.js";
 import Task from "../models/Task.js";
 import PeopleMemo from "../models/PeopleMemo.js";
-import _ from "lodash";
+import User from "../models/User.js";
 
 const resolvers = {
   Query: {
+    // user---------------------------------
+    users: async () => {
+      let usersList = await User.find();
+      return usersList;
+    },
+    user: async (parent, { id }, context) => {
+      let currentUser = await User.findById(id);
+      let taskList = await Task.find({ createdBy: id });
+      let peopleMemoList = await PeopleMemo.find({ createdBy: id });
+      let expenditureList = await Expenditure.find({ createdBy: id });
+      console.log(currentUser);
+      let data = {
+        name: currentUser.name,
+        email: currentUser.email,
+        role: currentUser.role,
+        tasks: taskList,
+        peopleMemos: peopleMemoList,
+        expenditures: expenditureList,
+      };
+      return data;
+    },
+    // ---------------------------------user
+
     // expenditure---------------------------------
     expenditures: async () => {
       let expenditureList = await Expenditure.find();
@@ -12,6 +36,8 @@ const resolvers = {
     },
     expenditure: async (parent, args, context) => {
       let currentExpenditure = await Expenditure.findById(args.id);
+      // let creatorID = currentExpenditure.createdBy;
+      // let creator = await Expenditure.findById(args.id);
       return currentExpenditure;
     },
     // ---------------------------------expenditure
@@ -23,6 +49,7 @@ const resolvers = {
     },
     task: async (parent, args, context) => {
       let currentTask = await Task.findById(args.id);
+      // let author = await User.find({})
       return currentTask;
     },
     // ---------------------------------task
@@ -37,47 +64,55 @@ const resolvers = {
       return currentPeopleMemo;
     },
     // ---------------------------------peopleMemo
-
   },
   Mutation: {
+    //deleteUser
+    deleteUser: async (parent, { id }) => {
+      await User.findByIdAndRemove(id);
+      await Expenditure.deleteMany({ createdBy: id });
+      await PeopleMemo.deleteMany({ createdBy: id });
+      await Task.deleteMany({ createdBy: id });
+      return id;
+    },
+
     // expenditure---------------------------------
-    createExpenditure: (parent, args) => {
+    createExpenditure: async (parent, args) => {
       return;
     },
-    updateExpenditure: (parent, args) => {
+    updateExpenditure: async (parent, args) => {
       return;
     },
-    deleteExpenditure: (parent, args) => {
-      return;
+    deleteExpenditure: async (parent, { id }) => {
+      await Expenditure.findByIdAndRemove(id);
+      return id;
     },
     // ---------------------------------expenditure
 
-
     // task---------------------------------
-    // createTask: (parent, args) => {
-    //   return;
-    // },
-    // updateTask: (parent, args) => {
-    //   return;
-    // },
-    // deleteTask: (parent, args) => {
-    //   return;
-    // },
+    createTask: async (parent, args) => {
+      return;
+    },
+    updateTask: async (parent, args) => {
+      return;
+    },
+    deleteTask: async (parent, { id }) => {
+      await Task.findByIdAndRemove(id);
+      return id;
+    },
     // ---------------------------------task
 
-
     // peopleMemo---------------------------------
-    // createPeopleMemo: (parent, args) => {
-    //   return;
-    // },
-    // updatePeopleMemo: (parent, args) => {
-    //   return;
-    // },
-    // deletePeopleMemo: (parent, args) => {
-    //   return;
-    // },
+    createPeopleMemo: async (parent, args) => {
+      return;
+    },
+    updatePeopleMemo: async (parent, args) => {
+      return;
+    },
+    deletePeopleMemo: async (parent, { id }) => {
+      await PeopleMemo.findByIdAndRemove(id);
+      return id;
+    },
     // ---------------------------------peopleMemo
-
   },
 };
 

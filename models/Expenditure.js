@@ -16,7 +16,7 @@ const expenditureSchema = new Schema(
       maxlength: [200, "Description can not be more than 200 characters"],
     },
     createdBy: {
-      type: mongoose.Types.ObjectId,
+      type: Types.ObjectId,
       ref: "User",
       required: [true, "Please provide user"],
     },

@@ -9,6 +9,7 @@ import connectDB from "./db/connect.js";
 import pkg from "body-parser";
 import typeDefs from "./schema/typeDefs.js";
 import resolvers from "./schema/resolvers.js";
+const port = process.env.PORT || 5000;
 
 const { json } = pkg;
 dotenv.config();
@@ -28,6 +29,7 @@ const server = new ApolloServer({
 await server.start();
 app.use(
   "/graphql",
+  // cors({ origin: ['https://www.your-app.example', 'https://studio.apollographql.com'] }),
   cors(),
   json(),
   expressMiddleware(server, {
@@ -35,5 +37,5 @@ app.use(
   })
 );
 
-await new Promise((resolve) => httpServer.listen({ port: 4000 }, resolve));
-console.log(`🚀 Server ready at http://localhost:4000/graphql`);
+await new Promise((resolve) => httpServer.listen({ port }, resolve));
+console.log(`🚀 Server ready at ${port}`);
