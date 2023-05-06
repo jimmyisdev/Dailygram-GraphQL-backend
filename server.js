@@ -29,7 +29,7 @@ const server = new ApolloServer({
 await server.start();
 app.use(
   "/graphql",
-  cors({ origin: ["https://dailygram-admin2023.onrender.com"] }),
+  cors({ origin:  ["https://dailygram-admin2023.onrender.com"] }),
   // cors(),
   json(),
   expressMiddleware(server, {

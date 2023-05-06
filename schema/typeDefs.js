@@ -9,7 +9,6 @@ const typeDefs = `
         users: [User]
         user(id: ID!): User!
     }
-
     type User{
         id: ID!
         name: String!
@@ -30,6 +29,8 @@ const typeDefs = `
         price: Float
         description: String
         createdBy:ID!
+        createdAt:String
+        user: User
     }
     type PeopleMemo{
         id: ID!
@@ -38,6 +39,8 @@ const typeDefs = `
         place: String
         description: String
         createdBy:ID!
+        createdAt:String
+        user: User
     }
     type Task{
         id: ID!
@@ -46,6 +49,8 @@ const typeDefs = `
         level: Level 
         description: String
         createdBy:ID!
+        createdAt:String
+        user: User
     }
     enum Level {
         unnecessary
@@ -97,7 +102,6 @@ const typeDefs = `
         updatePeopleMemo( id: ID!, input: UpdatePeopleMemoInput!) : PeopleMemo!
 
         deleteUser(id: ID!) : ID!
-
     }
 `;
 export default typeDefs;

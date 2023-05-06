@@ -16,7 +16,6 @@ const resolvers = {
       let taskList = await Task.find({ createdBy: id });
       let peopleMemoList = await PeopleMemo.find({ createdBy: id });
       let expenditureList = await Expenditure.find({ createdBy: id });
-      console.log(currentUser);
       let data = {
         name: currentUser.name,
         email: currentUser.email,
@@ -34,11 +33,19 @@ const resolvers = {
       let expenditureList = await Expenditure.find();
       return expenditureList;
     },
-    expenditure: async (parent, args, context) => {
-      let currentExpenditure = await Expenditure.findById(args.id);
-      // let creatorID = currentExpenditure.createdBy;
-      // let creator = await Expenditure.findById(args.id);
-      return currentExpenditure;
+    expenditure: async (parent, { id }, context) => {
+      let currentItem = await Expenditure.findById(id);
+      let creatorID = currentItem.createdBy;
+      let currentUser = await User.findById(creatorID);
+      let data = {
+        name: currentItem.name,
+        description: currentItem.description,
+        createdAt: currentItem.createdAt,
+        user: {
+          name: currentUser.name,
+        },
+      };
+      return data;
     },
     // ---------------------------------expenditure
 
@@ -48,9 +55,18 @@ const resolvers = {
       return taskList;
     },
     task: async (parent, args, context) => {
-      let currentTask = await Task.findById(args.id);
-      // let author = await User.find({})
-      return currentTask;
+      let currentItem = await Task.findById(args.id);
+      let creatorID = currentItem.createdBy;
+      let currentUser = await User.findById(creatorID);
+      let data = {
+        name: currentItem.name,
+        description: currentItem.description,
+        createdAt: currentItem.createdAt,
+        user: {
+          name: currentUser.name,
+        },
+      };
+      return data;
     },
     // ---------------------------------task
 
@@ -60,8 +76,18 @@ const resolvers = {
       return peopleMemosList;
     },
     peopleMemo: async (parent, args, context) => {
-      let currentPeopleMemo = await PeopleMemo.findById(args.id);
-      return currentPeopleMemo;
+      let currentItem = await PeopleMemo.findById(args.id);
+      let creatorID = currentItem.createdBy;
+      let currentUser = await User.findById(creatorID);
+      let data = {
+        name: currentItem.name,
+        description: currentItem.description,
+        createdAt: currentItem.createdAt,
+        user: {
+          name: currentUser.name,
+        },
+      };
+      return data;
     },
     // ---------------------------------peopleMemo
   },
