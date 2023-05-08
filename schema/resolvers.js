@@ -92,51 +92,63 @@ const resolvers = {
     // ---------------------------------peopleMemo
   },
   Mutation: {
-    //deleteUser
+    //user
     deleteUser: async (parent, { id }) => {
-      await User.findByIdAndRemove(id);
-      await Expenditure.deleteMany({ createdBy: id });
-      await PeopleMemo.deleteMany({ createdBy: id });
-      await Task.deleteMany({ createdBy: id });
-      return id;
+      try {
+        await User.findByIdAndRemove(id);
+        await Expenditure.deleteMany({ createdBy: id });
+        await PeopleMemo.deleteMany({ createdBy: id });
+        await Task.deleteMany({ createdBy: id });
+        return id;
+      } catch (error) {
+        console.log(error);
+        return;
+      }
+    },
+    createUser: async (parent, { input }) => {
+      try {
+        const { name, email, password } = input;
+        const user = await User.signup(name, email, password);
+        return user;
+      } catch (error) {
+        console.log(error);
+        return;
+      }
     },
 
     // expenditure---------------------------------
-    createExpenditure: async (parent, args) => {
-      return;
-    },
-    updateExpenditure: async (parent, args) => {
-      return;
-    },
     deleteExpenditure: async (parent, { id }) => {
-      await Expenditure.findByIdAndRemove(id);
-      return id;
+      try {
+        await Expenditure.findByIdAndRemove(id);
+        return id;
+      } catch (error) {
+        console.log(error);
+        return;
+      }
     },
     // ---------------------------------expenditure
 
     // task---------------------------------
-    createTask: async (parent, args) => {
-      return;
-    },
-    updateTask: async (parent, args) => {
-      return;
-    },
     deleteTask: async (parent, { id }) => {
-      await Task.findByIdAndRemove(id);
-      return id;
+      try {
+        await Task.findByIdAndRemove(id);
+        return id;
+      } catch (error) {
+        console.log(error);
+        return;
+      }
     },
     // ---------------------------------task
 
     // peopleMemo---------------------------------
-    createPeopleMemo: async (parent, args) => {
-      return;
-    },
-    updatePeopleMemo: async (parent, args) => {
-      return;
-    },
     deletePeopleMemo: async (parent, { id }) => {
-      await PeopleMemo.findByIdAndRemove(id);
-      return id;
+      try {
+        await PeopleMemo.findByIdAndRemove(id);
+        return id;
+      } catch (error) {
+        console.log(error);
+        return;
+      }
     },
     // ---------------------------------peopleMemo
   },

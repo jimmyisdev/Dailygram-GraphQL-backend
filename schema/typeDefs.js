@@ -88,6 +88,14 @@ const typeDefs = `
         price: Float
         description: String
     }
+
+    input CreateUserInput{
+        name: String
+        email: String
+        password: String
+    }
+
+
     type Mutation{
         createExpenditure(input: CreateExpenditureInput!) : Expenditure!
         deleteExpenditure(id: ID!) :ID!
@@ -101,6 +109,7 @@ const typeDefs = `
         deletePeopleMemo(id: ID!) : ID!
         updatePeopleMemo( id: ID!, input: UpdatePeopleMemoInput!) : PeopleMemo!
 
+        createUser(input: CreateUserInput!) : User!
         deleteUser(id: ID!) : ID!
     }
 `;
