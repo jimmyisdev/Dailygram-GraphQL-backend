@@ -115,6 +115,16 @@ const resolvers = {
         return;
       }
     },
+    updateUser: async (parent, { input }) => {
+      try {
+        const { name, email, password } = input;
+        const user = await User.signup(name, email, password);
+        return user;
+      } catch (error) {
+        console.log(error);
+        return;
+      }
+    },
 
     // expenditure---------------------------------
     deleteExpenditure: async (parent, { id }) => {

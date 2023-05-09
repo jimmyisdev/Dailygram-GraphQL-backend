@@ -110,6 +110,7 @@ const typeDefs = `
         updatePeopleMemo( id: ID!, input: UpdatePeopleMemoInput!) : PeopleMemo!
 
         createUser(input: CreateUserInput!) : User!
+        updateUser(id: ID!, input: CreateUserInput!) : User!
         deleteUser(id: ID!) : ID!
     }
 `;
